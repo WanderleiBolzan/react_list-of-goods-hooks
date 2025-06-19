@@ -1,5 +1,8 @@
 import React, { useState, useCallback } from 'react';
 
+// Enum for defining the types of sorting
+
+// Initial list of goods, remains constant and is the source of truth for all sorts
 const goodsFromServer: string[] = [
   'Dumplings',
   'Carrot',
@@ -15,23 +18,26 @@ const goodsFromServer: string[] = [
 
 export const App: React.FC = () => {
   const [goods, setGoods] = useState<string[]>(goodsFromServer);
+
   const sortAlphabetically = useCallback(() => {
-    const sortedGoods = [...goods].sort((a, b) => a.localeCompare(b));
+    const sortedGoods = [...goodsFromServer].sort((a, b) => a.localeCompare(b));
 
     setGoods(sortedGoods);
-  }, [goods]);
+  }, []);
+
   const sortByLength = useCallback(() => {
-    const sortedGoods = [...goods].sort((a, b) => a.length - b.length);
+    const sortedGoods = [...goodsFromServer].sort(
+      (a, b) => a.length - b.length,
+    );
 
     setGoods(sortedGoods);
-  }, [goods]);
+  }, []);
 
   const reverseList = useCallback(() => {
-    const reversedGoods = [...goods].reverse();
+    const reversedGoods = [...goodsFromServer].reverse();
 
     setGoods(reversedGoods);
-  }, [goods]);
-
+  }, []);
   const resetList = useCallback(() => {
     setGoods(goodsFromServer);
   }, []);
@@ -39,16 +45,16 @@ export const App: React.FC = () => {
   return (
     <div
       className="container mx-auto p-8 bg-gray-50
-      rounded-lg shadow-xl font-inter
-      min-h-screen flex flex-col justify-center items-center"
+      rounded-lg shadow-xl font-inter min-h-screen
+      flex flex-col justify-center items-center"
     >
-      {/* Buttons container for sorting actions */}
+      {/* Buttons container for sorting actions, styled with Tailwind for visual appeal. */}
       <div className="flex flex-wrap justify-center gap-4 mb-8">
         <button
           type="button"
-          className="bg-blue-500 hover:bg-blue-600
-          text-white font-semibold py-2 px-6
-          rounded-lg shadow-md transition duration-300
+          className="bg-blue-500 hover:bg-blue-600 text-white
+          font-semibold py-2 px-6 rounded-lg
+          shadow-md transition duration-300
           ease-in-out transform hover:scale-105"
           onClick={sortAlphabetically}
         >
@@ -58,8 +64,8 @@ export const App: React.FC = () => {
         <button
           type="button"
           className="bg-green-500 hover:bg-green-600
-          text-white font-semibold py-2 px-6
-          rounded-lg shadow-md transition duration-300
+          text-white font-semibold py-2 px-6 rounded-lg
+          shadow-md transition duration-300
           ease-in-out transform hover:scale-105"
           onClick={sortByLength}
         >
@@ -89,13 +95,16 @@ export const App: React.FC = () => {
         </button>
       </div>
 
-      {/* List display area */}
+      {/* List display area. */}
       <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-6">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">
+        <h2
+          className="text-2xl font-bold
+          text-gray-800 mb-4 text-center"
+        >
           Goods List
         </h2>
         <ul className="list-disc list-inside text-lg text-gray-700">
-          {/* Map through the 'goods' state to render each item dynamically */}
+          {/* Dynamically render each item from the 'goods' state. */}
           {goods.map((good, index) => (
             <li
               key={index}
@@ -111,4 +120,4 @@ export const App: React.FC = () => {
   );
 };
 
-export default App;
+export default App; // Export App as default.
